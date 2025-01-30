@@ -11,7 +11,7 @@ class User(
     val name: String,
     val email: String,
     @Column(name="profile_img")
-    val profileImg: String
-) {
-
-}
+    val profileImg: String,
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val rooms: MutableSet<RoomUser> = mutableSetOf()
+)
