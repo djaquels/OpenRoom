@@ -1,0 +1,19 @@
+{
+  "Name": "tech-deployer",
+  "IsCustom": true,
+  "Description": "Custom role to deploy and maintain AKS, PostgreSQL, and ACR within a specific resource group.",
+  "Actions": [
+    "Microsoft.Resources/subscriptions/resourceGroups/read",
+    "Microsoft.Resources/deployments/*",
+    "Microsoft.Resources/subscriptions/resourceGroups/resources/*",
+    "Microsoft.ContainerService/managedClusters/*",
+    "Microsoft.ContainerRegistry/registries/*",
+    "Microsoft.DBforPostgreSQL/servers/*",
+    "Microsoft.KeyVault/vaults/*",
+    "Microsoft.Network/*"
+  ],
+  "NotActions": [],
+  "AssignableScopes": [
+    "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/openroom-rg"
+  ]
+}
