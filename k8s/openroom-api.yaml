@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openroom-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: openroom-api
+  template:
+    metadata:
+      labels:
+        app: openroom-api
+    spec:
+      containers:
+        - name: openroom-api
+          image: <ACR_LOGIN>/openroom-api:prod
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: openroom-api-secret
+                  key: DB_URL
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: openroom-api-secret
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: openroom-api-secret
+                  key: DB_PASS
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: openroom-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: openroom-api
+  ports:
+    - port: 80
+      targetPort: 8080
