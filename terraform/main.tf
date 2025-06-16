@@ -76,3 +76,28 @@ resource "kubernetes_secret" "openroom_api_secret" {
     DB_PASS = base64encode(var.db_pass)
   }
 }
+
+resource "azurerm_postgresql_flexible_server" "db" {
+  name                   = "openroomdb"
+  resource_group_name    = azurerm_resource_group.name
+  location               = var.location
+  administrator_login    = var.db_user
+  administrator_password = var.db_pass
+  version                = "13"
+
+  sku_name   = "Standard_D2s_v3"
+  storage_mb = 32768
+
+  delegated_subnet_id = azurerm_subnet.db.id
+  private_dns_zone_id = azurerm_private_dns_zone.db.id
+  authentication {
+    active_directory_auth_enabled = false
+    password_auth_enabled         = true
+  }
+
+  high_availability {
+    mode = "ZoneRedundant"
+  }
+
+  depends_on = [azurerm_virtual_network.vnet]
+}
