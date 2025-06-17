@@ -41,3 +41,11 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+# Terraform binaries
+./terraform/.terraform/**
+./terraform/.terraform.lock.hcl
+terraform/.terraform.lock.hcl
+./terraform/.terraform
+terraform/.terraform
+terraform/.terraform/

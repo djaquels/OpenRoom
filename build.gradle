@@ -44,3 +44,13 @@ kotlin {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+def profile = project.hasProperty('profile') ? "-${project.property('profile')}" : ''
+def propertiesFile = "src/main/resources/application${profile}.properties"
+
+task copyProperties(type: Copy) {
+    from propertiesFile
+    into "$buildDir/resources/main"
+    rename { 'application.properties' }
+}
+processResources.dependsOn copyProperties
